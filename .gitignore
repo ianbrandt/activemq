@@ -10,6 +10,11 @@ target
 .project
 .classpath
 .settings
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
 eclipse-classes
 activemq-unit-tests/ActiveMQConnections.dot
 activemq-unit-tests/KahaDB
