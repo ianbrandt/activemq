@@ -688,14 +688,14 @@ public class TransportConnection implements Connection, Task, CommandVisitor {
             try {
                 processRemoveConsumer(consumerId, lastDeliveredSequenceId);
             } catch (Throwable e) {
-                LOG.warn("Failed to remove consumer: {}", consumerId, e);
+                LOG.debug("Failed to remove consumer: {}", consumerId, e);
             }
         }
         for (ProducerId producerId : session.getProducerIds()) {
             try {
                 processRemoveProducer(producerId);
             } catch (Throwable e) {
-                LOG.warn("Failed to remove producer: {}", producerId, e);
+                LOG.debug("Failed to remove producer: {}", producerId, e);
             }
         }
         cs.removeSession(id);
@@ -800,7 +800,7 @@ public class TransportConnection implements Connection, Task, CommandVisitor {
                 try {
                     processRemoveSession(sessionId, lastDeliveredSequenceId);
                 } catch (Throwable e) {
-                    SERVICELOG.warn("Failed to remove session {}", sessionId, e);
+                    SERVICELOG.debug("Failed to remove session {}", sessionId, e);
                 }
             }
             // Cascade the connection stop to temp destinations.
@@ -809,14 +809,14 @@ public class TransportConnection implements Connection, Task, CommandVisitor {
                 try {
                     broker.removeDestination(cs.getContext(), di.getDestination(), 0);
                 } catch (Throwable e) {
-                    SERVICELOG.warn("Failed to remove tmp destination {}", di.getDestination(), e);
+                    SERVICELOG.debug("Failed to remove tmp destination {}", di.getDestination(), e);
                 }
                 iter.remove();
             }
             try {
                 broker.removeConnection(cs.getContext(), cs.getInfo(), null);
             } catch (Throwable e) {
-                SERVICELOG.warn("Failed to remove connection {}", cs.getInfo(), e);
+                SERVICELOG.debug("Failed to remove connection {}", cs.getInfo(), e);
             }
             TransportConnectionState state = unregisterConnectionState(id);
             if (state != null) {
