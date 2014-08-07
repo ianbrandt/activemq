@@ -169,12 +169,23 @@ public abstract class JmsConnector implements Service {
 
             ThreadPoolUtils.shutdown(connectionSerivce);
             connectionSerivce = null;
-
             for (DestinationBridge bridge : inboundBridges) {
                 bridge.stop();
             }
             for (DestinationBridge bridge : outboundBridges) {
                 bridge.stop();
+            }
+            if (foreignConnection.get() != null) {
+                try {
+                    foreignConnection.get().close();
+                } catch (Exception e) {
+                }
+            }
+            if (localConnection.get() != null) {
+                try {
+                    localConnection.get().close();
+                } catch (Exception e) {
+                }
             }
             LOG.info("JMS Connector {} stopped", getName());
         }
